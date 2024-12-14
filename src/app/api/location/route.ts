@@ -3,6 +3,7 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 export async function POST(req: NextRequest) {
   try {
+
     const body = await req.json();
     const { phoneNumber } = body;
 
@@ -19,7 +20,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(locationData, { status: 200 });
   } catch (error) {
+
     console.error("Error in API:", error);
     return NextResponse.json({ error }, { status: 400 });
+    
   }
 }
