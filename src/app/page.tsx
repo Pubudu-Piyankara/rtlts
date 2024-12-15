@@ -7,6 +7,7 @@ interface LocationResponse {
 }
 
 export default function Home() {
+  
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [locationData, setLocationData] = useState<LocationResponse | null>(null);
   // const [error, setError] = useState<string | null>(null);
