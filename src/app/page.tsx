@@ -1,35 +1,41 @@
 "use client";
 import axios from "axios";
 import { useState, FormEvent } from "react";
+import MapComponent from "../components/MapComponent";
 
 interface LocationResponse {
-  location: string;
+  latitude: string;
+  longitude: string;
 }
 
 export default function Home() {
-  
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [locationData, setLocationData] = useState<LocationResponse | null>(null);
-  // const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchLocation = async (): Promise<void> => {
     try {
-      const response = await axios.post("/api/location", {phoneNumber});
+      const response = await axios.post("/api/location", { phoneNumber });
       if (!response.data) {
         throw new Error(`Error: ${response.status}`);
       }
-      setLocationData(response.data); 
-      // setError(null); // Clear any previous errors
+      setLocationData(response.data);
+      setError(null); // Clear previous errors
     } catch (error) {
-      console.log("Failed to fetch location:", error);
+      console.error("Failed to fetch location:", error);
+      setError("Unable to fetch location. Please try again.");
     }
   };
 
   const handleSubmit = (event: FormEvent): void => {
     event.preventDefault();
     
+    if (!phoneNumber || phoneNumber.length < 10) {
+      setError("Please enter a valid phone number.");
+      return;
+    }
+    
     fetchLocation();
-
   };
 
   return (
@@ -56,11 +62,14 @@ export default function Home() {
             </button>
           </form>
         </div>
-        {/* {error && <p className="text-red-500">{error}</p>} */}
-        {locationData && (
-          <div>
-            <p>Location: {locationData.location}</p>
-          </div>
+        {error && <p className="text-red-500 font-semibold">{error}</p>}
+        {locationData ? (
+          <MapComponent 
+            latitude={Number(locationData.latitude)} 
+            longitude={Number(locationData.longitude)} 
+          />
+        ) : (
+          <p>No location loaded</p>
         )}
       </main>
     </div>

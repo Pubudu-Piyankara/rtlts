@@ -14,9 +14,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid phone number" }, { status: 400 });
     }
 
-    const locationData = {
-      location: "Colombo, Sri Lanka",
-    };
+    // const locationData = {
+    //   location: "Colombo, Sri Lanka",
+    // };
+
+    const locationData = createRandomLocation();
 
     return NextResponse.json(locationData, { status: 200 });
   } catch (error) {
@@ -25,4 +27,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error }, { status: 400 });
     
   }
+}
+
+
+function createRandomLocation(){
+  const latMin = 5.8; // Sri Lanka latitude range
+  const latMax = 9.9;
+  const lonMin = 79.7; // Sri Lanka longitude range
+  const lonMax = 81.9;
+
+  const latitude = (Math.random() * (latMax - latMin) + latMin).toFixed(6);
+  const longitude = (Math.random() * (lonMax - lonMin) + lonMin).toFixed(6);
+
+  return { latitude, longitude };
 }
