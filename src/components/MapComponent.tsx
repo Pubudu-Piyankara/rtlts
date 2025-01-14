@@ -16,9 +16,6 @@ const MapComponent: React.FC<MapProps> = ({ latitude, longitude }) => {
 
   return (
     <GoogleMap
-
-
-    
       center={{ lat: latitude, lng: longitude }}
       zoom={10}
       mapContainerStyle={{ width: "100%", height: "400px" }}
