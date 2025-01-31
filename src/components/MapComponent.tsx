@@ -15,6 +15,7 @@ const MapComponent: React.FC<MapProps> = ({ latitude, longitude }) => {
   if (!isLoaded) return <div>Loading...</div>;
 
   return (
+  
     <GoogleMap
       center={{ lat: latitude, lng: longitude }}
       zoom={10}
